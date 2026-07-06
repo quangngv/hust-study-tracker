@@ -1,0 +1,37 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+
+# Environment files
+.env
+.env.*
+
+# Packaged extension archives
+*.zip
+*.crx
+
+# Local scrape/debug samples
+temp.json
+.codex
+.codex/*
+.agents
+.agents/*

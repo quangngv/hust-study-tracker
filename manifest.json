@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Quản lý học phần HUST",
+  "version": "1.0.1",
+  "description": "Tổng hợp bảng Chương trình đào tạo trên CTT-SIS: tính CPA, tín chỉ đã qua/còn thiếu theo từng khối kiến thức, và chọn mô đun chuyên ngành.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://ctt-sis.hust.edu.vn/*"],
+  "action": {
+    "default_icon": {
+      "16": "hustlogo.png",
+      "32": "hustlogo.png",
+      "48": "hustlogo.png",
+      "128": "hustlogo.png"
+    }
+  },
+  "icons": {
+    "16": "hustlogo.png",
+    "32": "hustlogo.png",
+    "48": "hustlogo.png",
+    "128": "hustlogo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://ctt-sis.hust.edu.vn/*"],
+      "js": ["ui.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["panel.html", "styles.css"],
+      "matches": ["https://ctt-sis.hust.edu.vn/*"]
+    }
+  ]
+}
