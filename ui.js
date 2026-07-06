@@ -255,10 +255,29 @@
   }
 
   function effectiveMarkRows(rows) {
-    return rows.map(row => ({
-      ...row,
-      oldLetterGrades: []
-    }));
+    return rows.map(row => {
+      const code = normalizeCourseCode(row.code);
+      if (!code) return { ...row, oldLetterGrades: [] };
+      
+      const otherAttempts = rows.filter(r => 
+        normalizeCourseCode(r.code) === code && 
+        r !== row
+      );
+      
+      const earlierAttempts = otherAttempts.filter(r => 
+        String(r.term || '').localeCompare(String(row.term || '')) < 0
+      );
+      
+      const oldLetterGrades = earlierAttempts.map(r => r.letterGrade).filter(Boolean);
+      const isImproved = isPassingGrade(row.letterGrade) && earlierAttempts.length > 0;
+      
+      return {
+        ...row,
+        oldLetterGrades,
+        isImproved: row.isImproved || isImproved,
+        originalGrade: row.originalGrade || (earlierAttempts.length > 0 ? earlierAttempts[earlierAttempts.length - 1].letterGrade : null)
+      };
+    });
   }
 
   function applyRecalculatedGeneralRows(generalRows, markRows) {
@@ -577,6 +596,9 @@
         }
       });
     }
+    if (selectedThesisType === 'research') {
+      delete categories.tt;
+    }
     return categories;
   }
 
@@ -585,6 +607,14 @@
     let all = [];
     const effCategories = getEffectiveCategories(model);
     Object.values(effCategories).forEach(arr => { all = all.concat(arr); });
+    
+    Object.values(model.categories).forEach(arr => {
+      arr.forEach(c => {
+        if (c.taken && !all.some(x => x.code === c.code)) {
+          all.push(c);
+        }
+      });
+    });
     
     let selectedModuleCourses = [];
     if (selectedModules && selectedModules.length > 0) {
@@ -779,6 +809,7 @@
 
     shadow.getElementById('courseCount').textContent = `${model.raw.length} môn`;
     shadow.getElementById('categoryGrid').innerHTML = Object.keys(window.CTTBK_DATA.catMeta)
+      .filter(key => !(selectedThesisType === 'research' && key === 'tt'))
       .map(key => categoryCardHTML(key, model))
       .join('');
 
@@ -1092,7 +1123,8 @@
         const oldGrades = row.oldLetterGrades || [];
         if (row.isImproved) {
           const origBadge = `<span class="grade-badge" style="text-decoration: line-through; opacity: 0.5; background: #E7E0E0; color: var(--muted);">${escapeHTML(row.originalGrade)}</span>`;
-          oldGradeContent = `${origBadge} ${oldGrades.length ? oldGrades.map(gradeBadge).join(' ') : ''}`;
+          const remainingOld = oldGrades.filter(g => g !== row.originalGrade);
+          oldGradeContent = `${origBadge} ${remainingOld.length ? remainingOld.map(gradeBadge).join(' ') : ''}`;
         } else if (oldGrades.length) {
           oldGradeContent = oldGrades.map(gradeBadge).join(' ');
         }
@@ -1177,7 +1209,8 @@
         
         // Grade Filter
         if (gradeVal !== 'all') {
-          const currentGrade = improvedGrades[row.code] || row.letterGrade || '';
+          const rowKey = row.code + '|' + (row.term || '');
+          const currentGrade = improvedGrades[rowKey] || row.letterGrade || '';
           if (gradeVal === 'F') {
             if (currentGrade !== 'F') return false;
           } else if (gradeVal === 'D') {
@@ -1193,19 +1226,22 @@
         
         // Status Filter
         if (statusVal !== 'all') {
+          const rowKey = row.code + '|' + (row.term || '');
           if (statusVal === 'real') {
             if (row.isVirtual) return false;
           } else if (statusVal === 'predicted') {
             if (!row.isVirtual) return false;
           } else if (statusVal === 'improved') {
             if (row.isVirtual) return false;
-            const improved = improvedGrades[row.code];
-            if (!improved || improved === row.letterGrade) return false;
+            const improved = improvedGrades[rowKey];
+            const virtuallyImproved = improved && improved !== row.letterGrade;
+            const officiallyImproved = row.isImproved;
+            if (!virtuallyImproved && !officiallyImproved) return false;
           } else if (statusVal === 'passed') {
-            const currentGrade = improvedGrades[row.code] || row.letterGrade;
+            const currentGrade = improvedGrades[rowKey] || row.letterGrade;
             if (!isPassingGrade(currentGrade)) return false;
           } else if (statusVal === 'failed') {
-            const currentGrade = improvedGrades[row.code] || row.letterGrade;
+            const currentGrade = improvedGrades[rowKey] || row.letterGrade;
             if (isPassingGrade(currentGrade)) return false;
           }
         }
