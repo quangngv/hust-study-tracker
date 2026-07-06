@@ -1703,7 +1703,25 @@
     const fabShadow = fabHost.attachShadow({ mode: 'open' });
     const doc = new DOMParser().parseFromString(html, 'text/html');
     fabShadow.innerHTML = `<style>${css}</style>`;
-    fabShadow.appendChild(doc.getElementById('fabStack'));
+    
+    const fabStack = doc.getElementById('fabStack');
+    const logoImg = doc.querySelector('.logo-img');
+    if (logoImg) {
+      logoImg.src = extensionURL('hustlogo.png') || '';
+    }
+    let isCollapsed = true;
+    try {
+      const stored = window.localStorage.getItem('cttbk_fab_collapsed');
+      if (stored === '0') {
+        isCollapsed = false;
+      }
+    } catch (e) {}
+    if (isCollapsed) {
+      fabStack.classList.add('collapsed');
+    }
+    
+    fabShadow.appendChild(fabStack);
+    
     fabShadow.getElementById('courseFabBtn').addEventListener('click', () => {
       if (panelOpen && currentPanelMode === 'courses') closePanel();
       else openTarget('courses');
@@ -1715,6 +1733,12 @@
     fabShadow.getElementById('generalFabBtn').addEventListener('click', () => {
       if (panelOpen && currentPanelMode === 'general') closePanel();
       else openTarget('general');
+    });
+    fabShadow.getElementById('toggleFabBtn').addEventListener('click', () => {
+      const collapsed = fabStack.classList.toggle('collapsed');
+      try {
+        window.localStorage.setItem('cttbk_fab_collapsed', collapsed ? '1' : '0');
+      } catch (e) {}
     });
   }
 

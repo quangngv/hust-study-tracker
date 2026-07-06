@@ -1142,3 +1142,77 @@ svg text {
   transform: scale(1.05);
   transition: transform 0.1s ease;
 }
+
+/* Collapsible FAB Stack and Toggle Button */
+.fab-toggle {
+  background: var(--surface) !important;
+  color: var(--muted) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.fab-toggle:hover {
+  background: var(--surface-soft) !important;
+  color: var(--ink) !important;
+}
+
+.fab-stack.collapsed .fab:not(#toggleFabBtn) {
+  display: none !important;
+}
+
+.fab-stack.collapsed #toggleFabBtn {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: rgba(156, 16, 16, 0.12) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(156, 16, 16, 0.22) !important;
+  box-shadow: 0 4px 12px rgba(156, 16, 16, 0.08) !important;
+  opacity: 0.65;
+  transition: all 0.2s ease-in-out;
+}
+
+.fab-stack.collapsed #toggleFabBtn:hover {
+  opacity: 1;
+  background: rgba(156, 16, 16, 0.25) !important;
+  border-color: rgba(156, 16, 16, 0.35) !important;
+  box-shadow: 0 6px 16px rgba(156, 16, 16, 0.16) !important;
+  transform: scale(1.08);
+}
+
+.fab-stack.collapsed #toggleFabBtn span {
+  display: none !important;
+}
+
+.fab-stack.collapsed #toggleFabBtn .icon-close {
+  display: none !important;
+}
+
+.fab-stack.collapsed #toggleFabBtn .logo-img {
+  display: block !important;
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  object-fit: contain !important;
+  opacity: 0.85;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.fab-stack:not(.collapsed) #toggleFabBtn .logo-img {
+  display: none !important;
+}
+
+.fab-stack:not(.collapsed) #toggleFabBtn .icon-close {
+  display: block !important;
+}
+

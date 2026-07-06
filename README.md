@@ -34,6 +34,8 @@ Tiện ích tự động quét dữ liệu từ trang CTT-SIS để xây dựng 
 
 ## 🛠️ Hướng dẫn cài đặt
 
+### 💻 Trên máy tính (Chrome, Edge, Opera, Brave,...)
+
 1. Tải mã nguồn của extension về máy tính bằng cách nhân bản kho lưu trữ Git:
    ```bash
    git clone https://github.com/quangngv/hust-study-tracker.git
@@ -49,6 +51,19 @@ Tiện ích tự động quét dữ liệu từ trang CTT-SIS để xây dựng 
 4. Bấm vào nút **Load unpacked** (Tải tiện ích đã giải nén) ở góc phía trên bên trái.
 5. Chọn thư mục chứa mã nguồn của extension đã giải nén ở Bước 1.
 6. Quay lại trang CTT-SIS và tải lại trang (Refresh).
+
+### 📱 Trên điện thoại (Dành riêng cho thiết bị di động)
+
+Để cài đặt và sử dụng extension trên điện thoại, bạn cần thực hiện theo các bước sau:
+
+1. **Cài đặt trình duyệt hỗ trợ**: Tải và cài đặt trình duyệt **Orion Browser** (hỗ trợ cài đặt extension Chrome/Firefox) từ App Store (iOS) hoặc cửa hàng ứng dụng trên điện thoại của bạn.
+2. **Tải file tiện ích**: Tải file tiện ích [hust-study-tracker.crx](file:///C:/Users/Admin/Downloads/hust-qlhp-main/hust-qlhp-main/hust-study-tracker.crx) trực tiếp về bộ nhớ điện thoại.
+3. **Cài đặt vào trình duyệt**:
+   * Mở trình duyệt **Orion Browser**.
+   * Mở cài đặt/menu của trình duyệt và tìm đến mục **Extensions** (Tiện ích mở rộng).
+   * Chọn tính năng cài đặt tiện ích từ file (thường là biểu tượng dấu cộng `+` hoặc **Install from file**).
+   * Chọn file `hust-study-tracker.crx` đã tải ở Bước 2.
+4. **Sử dụng**: Truy cập vào trang CTT-SIS và đăng nhập để sử dụng Dashboard tiện ích trên giao diện điện thoại.
 
 ---
 

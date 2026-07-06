@@ -28,7 +28,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["panel.html", "styles.css"],
+      "resources": ["panel.html", "styles.css", "hustlogo.png"],
       "matches": ["https://ctt-sis.hust.edu.vn/*"]
     }
   ]
